@@ -1,0 +1,161 @@
+swagger: '2.0'
+info:
+  title: Tasks API
+  description: |2-
+     # Task API #
+    This API is used to manage information about tasks.
+  version: 1.0.0
+host: 'localhost:8080'
+schemes:
+  - http
+  - https
+tags:
+  - name: tasks
+    description: API For task management.
+paths:
+  /tasks:
+    get:
+      summary: Returns a list of tasks.
+      tags:
+        - tasks
+      produces:
+        - application/hal+json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Task'
+    post:
+      summary: Creates new task
+      parameters:
+        - in: body
+          name: body
+          description: Task data
+          required: true
+          schema:
+            $ref: '#/definitions/Task'
+      tags:
+        - tasks
+      produces:
+        - application/hal+json
+      consumes:
+        - application/hal+json
+        - application/json
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Task'
+  '/tasks/{id}':
+    get:
+      summary: Returns task by id
+      tags:
+        - tasks
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+          description: Task id
+      produces:
+        - application/hal+json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Task'
+        '404':
+          description: Not Found
+    put:
+      summary: Replace task
+      tags:
+        - tasks
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+          description: Task id
+        - in: body
+          name: body
+          description: Task data
+          required: true
+          schema:
+            $ref: '#/definitions/Task'
+      produces:
+        - application/hal+json
+      consumes:
+        - application/hal+json
+        - application/json
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Task'
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Task'
+    patch:
+      summary: Partially updating the task state
+      tags:
+        - tasks
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+          description: Task id
+        - in: body
+          name: body
+          description: Task data
+          required: true
+          schema:
+            $ref: '#/definitions/Task'
+      produces:
+        - application/hal+json
+      consumes:
+        - application/hal+json
+        - application/json
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Task'
+        '404':
+          description: Not Found
+    delete:
+      summary: Delete task by id
+      tags:
+        - tasks
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+          description: Task id
+      produces:
+        - application/hal+json
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+definitions:
+  Task:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: string
+      desc:
+        type: string
